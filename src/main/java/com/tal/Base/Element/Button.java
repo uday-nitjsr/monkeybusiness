@@ -16,7 +16,8 @@ public class Button {
     @Getter
     public String button_link;
 
-    public Button(String... a){
+    public Button(String button_id,String button_class,String button_href,String button_link){
 
     }
+
 }

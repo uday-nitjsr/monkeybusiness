@@ -4,20 +4,19 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.tal.Base.Element.Button;
+import com.tal.Base.Element.Radio;
 import com.tal.Base.Element.enums.ElementType;
 import net.sourceforge.htmlunit.corejs.javascript.ObjToIntMap;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by asus on 5/17/2017.
  */
 public class ParseJson {
+    public HashMap<String,Object> hashMap = new HashMap<String, Object>();
 
     public String jsonString = "{\n" +
             " \"Link_Topnav\": [\n" +
@@ -173,29 +172,51 @@ public class ParseJson {
             }
             else {
                 JSONArray jsonArray = obj.getJSONArray(e);
-                switch (elementType){
-                    case TEXTBOX:
-                        break;
-                    case RADIOBUTTON:
-                        break;
-                    case LINK:
-                        break;
-                    case DROPDOWN:
-                        break;
-                    case BUTTON:
-                        List<Button> buttons=new ArrayList<Button>();
-                        buttons.add(new Button());
-                        break;
-                    case CHECKBOX:
-                        break;
-                }
+                //Create MasterElement Hasmap with all objects
+                fillHashMap(hashMap,elementType,e);
 
             }
         }
     }
 
-    public void addingNewMethod(){
-        
+    public void fillHashMap(HashMap hashMap,ElementType element,String elementName){
+        switch (element){
+            case TEXTBOX:
+                break;
+            case RADIOBUTTON:
+                break;
+            case LINK:
+                break;
+            case DROPDOWN:
+                break;
+            case BUTTON:
+                //getElementList
+                hashMap.put(elementName,getButtonList(elementName));
+                break;
+            case CHECKBOX:
+                break;
+        }
+    }
+
+    public List getButtonList(String elementKeyName){
+        List<Button> buttons= new ArrayList<Button>();
+        JSONArray jsonArray = obj.getJSONArray(elementKeyName);
+        for (int i=0;i<jsonArray.length();i++){
+            buttons.add(new Button(jsonArray.getJSONObject(i).getString("name"),
+                    jsonArray.getJSONObject(i).getString("class"),
+                    jsonArray.getJSONObject(i).getString("href"),
+                    jsonArray.getJSONObject(i).getString("link")));
+        }
+        return buttons;
+    }
+
+    public List getRadioList(String elementKeyName){
+        List<Radio> radios = new ArrayList<Radio>();
+        JSONArray jsonArray = obj.getJSONArray(elementKeyName);
+        for (int i=0;i<jsonArray.length();i++){
+            radios.add(new Radio());
+        }
+        return radios;
     }
 
     public static void main(String args[]) throws Exception {
