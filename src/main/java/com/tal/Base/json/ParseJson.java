@@ -193,14 +193,10 @@ public class ParseJson {
             }
         }
     }
-//    public String checkElementType(JSONObject jsonObject) throws Exception{
-//        for(ElementType e:ElementType.values()){
-//            if(!jsonObject.getAsJsonArray(e.toString()).equals(null)){
-//                return e.toString();
-//            }
-//        }
-//        throw new Exception("Did not matched with any of the elements mentioned in ElementType");
-//    }
+
+    public void addingNewMethod(){
+        
+    }
 
     public static void main(String args[]) throws Exception {
         ParseJson parseJson = new ParseJson();
