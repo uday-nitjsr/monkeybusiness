@@ -1,15 +1,12 @@
 package com.tal.Base.json;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.tal.Base.Element.Button;
 import com.tal.Base.Element.Radio;
 import com.tal.Base.Element.enums.ElementType;
-import net.sourceforge.htmlunit.corejs.javascript.ObjToIntMap;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import java.util.*;
 
 /**
@@ -117,9 +114,9 @@ public class ParseJson {
             " }\n" +
             " ]\n" +
             "}";
-    JSONObject obj = new JSONObject(jsonString);
+    JsonObject obj = new JsonParser().parse(jsonString).getAsJsonObject();
 
-    public void parseThis(JSONObject jsonObject, Boolean isWebElement, ElementType type) throws Exception {
+    public void parseThis(JsonObject jsonObject, Boolean isWebElement, ElementType type) throws Exception {
         if (isWebElement){
             switch(type){
                 case BUTTON:
@@ -144,13 +141,13 @@ public class ParseJson {
         }
         else {
             //Iterate jsonObject to check how many types of Element are present and create a stringlist
-//            JSONArray jsonArray = jsonObject.getJSONArray("");
-            Iterator keysToInterate = jsonObject.keys();
             List<String> keyList = new ArrayList<String>();
-            while (keysToInterate.hasNext()){
-                String key = (String) keysToInterate.next();
-                keyList.add(key);
+            JsonObject json = new JsonObject();
+            for (Map.Entry<String, JsonElement> e: json.entrySet()){
+                    keyList.add(e.getKey());
             }
+
+//            JSONArray jsonArray = jsonObject.getJSONArray("");
             //pass this list to checkElementListFromJson to compare it against the existing ElementType
             checkElementListFromJson(keyList);
         }
@@ -171,7 +168,7 @@ public class ParseJson {
                 //Add to report e is not found in ElementType
             }
             else {
-                JSONArray jsonArray = obj.getJSONArray(e);
+                JsonArray jsonArray = obj.getAsJsonArray(e);
                 //Create MasterElement Hasmap with all objects
                 fillHashMap(hashMap,elementType,e);
 
@@ -179,7 +176,7 @@ public class ParseJson {
         }
     }
 
-    public void fillHashMap(HashMap hashMap,ElementType element,String elementName){
+        public void fillHashMap(HashMap hashMap,ElementType element,String elementName){
         switch (element){
             case TEXTBOX:
                 break;
@@ -200,27 +197,25 @@ public class ParseJson {
 
     public List getButtonList(String elementKeyName){
         List<Button> buttons= new ArrayList<Button>();
-        JSONArray jsonArray = obj.getJSONArray(elementKeyName);
-        for (int i=0;i<jsonArray.length();i++){
-            buttons.add(new Button(jsonArray.getJSONObject(i).getString("name"),
-                    jsonArray.getJSONObject(i).getString("class"),
-                    jsonArray.getJSONObject(i).getString("href"),
-                    jsonArray.getJSONObject(i).getString("link")));
+        JsonArray jsonArray = obj.getAsJsonArray(elementKeyName);
+        for (int i=0;i<jsonArray.size();i++){
+            buttons.add(new Button(jsonArray.get(i).getAsJsonObject().get("name").getAsString(),
+                    jsonArray.get(i).getAsJsonObject().get("class").getAsString(),
+                    jsonArray.get(i).getAsJsonObject().get("href").getAsString(),
+                    jsonArray.get(i).getAsJsonObject().get("link").getAsString()));
         }
         return buttons;
     }
 
     public List getRadioList(String elementKeyName){
         List<Radio> radios = new ArrayList<Radio>();
-        JSONArray jsonArray = obj.getJSONArray(elementKeyName);
-        for (int i=0;i<jsonArray.length();i++){
-            radios.add(new Radio());
-        }
+        //same logic as getButtonList
         return radios;
     }
 
     public static void main(String args[]) throws Exception {
         ParseJson parseJson = new ParseJson();
+        parseJson.parseThis(parseJson.obj,false,null);
 //        System.out.println(parseJson.parseThis(parseJson.obj,false,null));
     }
 }
