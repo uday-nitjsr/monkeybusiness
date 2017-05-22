@@ -1,26 +1,22 @@
 package com.tal.Base.json;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.tal.Base.Element.Button;
+import com.tal.Base.Element.Radio;
 import com.tal.Base.Element.enums.ElementType;
-import net.sourceforge.htmlunit.corejs.javascript.ObjToIntMap;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by asus on 5/17/2017.
  */
 public class ParseJson {
+    public HashMap<String,Object> hashMap = new HashMap<String, Object>();
 
     public String jsonString = "{\n" +
-            " \"Link_Topnav\": [\n" +
+            " \"Button_Topnav\": [\n" +
             "  {\n" +
             "   \"name\": \"Flights\",\n" +
             "   \"url\": \"https://www.goibibo.com/flights/\",\n" +
@@ -118,9 +114,9 @@ public class ParseJson {
             " }\n" +
             " ]\n" +
             "}";
-    JSONObject obj = new JSONObject(jsonString);
+    JsonObject obj = new JsonParser().parse(jsonString).getAsJsonObject();
 
-    public void parseThis(JSONObject jsonObject, Boolean isWebElement, ElementType type) throws Exception {
+    public void parseThis(JsonObject jsonObject, Boolean isWebElement, ElementType type) throws Exception {
         if (isWebElement){
             switch(type){
                 case BUTTON:
@@ -145,13 +141,12 @@ public class ParseJson {
         }
         else {
             //Iterate jsonObject to check how many types of Element are present and create a stringlist
-//            JSONArray jsonArray = jsonObject.getJSONArray("");
-            Iterator keysToInterate = jsonObject.keys();
             List<String> keyList = new ArrayList<String>();
-            while (keysToInterate.hasNext()){
-                String key = (String) keysToInterate.next();
-                keyList.add(key);
+            for (Map.Entry<String, JsonElement> e: obj.entrySet()){
+                    keyList.add(e.getKey());
             }
+
+//            JSONArray jsonArray = jsonObject.getJSONArray("");
             //pass this list to checkElementListFromJson to compare it against the existing ElementType
             checkElementListFromJson(keyList);
         }
@@ -172,34 +167,69 @@ public class ParseJson {
                 //Add to report e is not found in ElementType
             }
             else {
-                JSONArray jsonArray = obj.getJSONArray(e);
-                switch (elementType){
-                    case TEXTBOX:
-                        break;
-                    case RADIOBUTTON:
-                        break;
-                    case LINK:
-                        break;
-                    case DROPDOWN:
-                        break;
-                    case BUTTON:
-                        List<Button> buttons=new ArrayList<Button>();
-                        buttons.add(new Button());
-                        break;
-                    case CHECKBOX:
-                        break;
-                }
+                JsonArray jsonArray = obj.getAsJsonArray(e);
+                //Create MasterElement Hasmap with all objects
+                fillHashMap(hashMap,elementType,e);
 
             }
         }
     }
 
-    public void addingNewMethod(){
-        
+        public void fillHashMap(HashMap hashMap,ElementType element,String elementName){
+        switch (element){
+            case TEXTBOX:
+                break;
+            case RADIOBUTTON:
+                break;
+            case LINK:
+                break;
+            case DROPDOWN:
+                break;
+            case BUTTON:
+                //getElementList
+                hashMap.put(elementName,getButtonList(elementName));
+                break;
+            case CHECKBOX:
+                break;
+        }
     }
+
+    public List getButtonList(String elementKeyName){
+        List<Button> buttons= new ArrayList<Button>();
+        JsonArray jsonArray = obj.getAsJsonArray(elementKeyName);
+        for (int i=0;i<jsonArray.size();i++){
+            buttons.add(new Button(jsonArray.get(i).getAsJsonObject().get("name"),
+                    jsonArray.get(i).getAsJsonObject().get("class"),
+                    jsonArray.get(i).getAsJsonObject().get("href"),
+                    jsonArray.get(i).getAsJsonObject().get("link")));
+        }
+        return buttons;
+    }
+
+    public List getRadioList(String elementKeyName){
+        List<Radio> radios = new ArrayList<Radio>();
+        JsonArray jsonArray = obj.getAsJsonArray(elementKeyName);
+        for (int i=0;i<jsonArray.size();i++){
+            radios.add(new Radio(jsonArray.get(i).getAsJsonObject().get("name"),
+                    jsonArray.get(i).getAsJsonObject().get("class"),
+                    jsonArray.get(i).getAsJsonObject().get("href"),
+                    jsonArray.get(i).getAsJsonObject().get("link")));
+        }
+        //same logic as getButtonList
+        return radios;
+    }
+
+    public List get
 
     public static void main(String args[]) throws Exception {
         ParseJson parseJson = new ParseJson();
+        parseJson.parseThis(parseJson.obj,false,null);
+        System.out.println("Is hashmap empty:"+parseJson.hashMap.isEmpty());
+        List<Button> buttons = (List<Button>) parseJson.hashMap.get("RadioButton_BookingType");
+        for (Button button:buttons){
+            System.out.println("Class:"+button.button_class+" ID:"+button.button_id
+            +" Href:"+button.button_href+" Link:"+button.button_link);
+        }
 //        System.out.println(parseJson.parseThis(parseJson.obj,false,null));
     }
 }
