@@ -16,7 +16,7 @@ public class ParseJson {
     public HashMap<String,Object> hashMap = new HashMap<String, Object>();
 
     public String jsonString = "{\n" +
-            " \"Link_Topnav\": [\n" +
+            " \"Button_Topnav\": [\n" +
             "  {\n" +
             "   \"name\": \"Flights\",\n" +
             "   \"url\": \"https://www.goibibo.com/flights/\",\n" +
@@ -142,8 +142,7 @@ public class ParseJson {
         else {
             //Iterate jsonObject to check how many types of Element are present and create a stringlist
             List<String> keyList = new ArrayList<String>();
-            JsonObject json = new JsonObject();
-            for (Map.Entry<String, JsonElement> e: json.entrySet()){
+            for (Map.Entry<String, JsonElement> e: obj.entrySet()){
                     keyList.add(e.getKey());
             }
 
@@ -199,23 +198,38 @@ public class ParseJson {
         List<Button> buttons= new ArrayList<Button>();
         JsonArray jsonArray = obj.getAsJsonArray(elementKeyName);
         for (int i=0;i<jsonArray.size();i++){
-            buttons.add(new Button(jsonArray.get(i).getAsJsonObject().get("name").getAsString(),
-                    jsonArray.get(i).getAsJsonObject().get("class").getAsString(),
-                    jsonArray.get(i).getAsJsonObject().get("href").getAsString(),
-                    jsonArray.get(i).getAsJsonObject().get("link").getAsString()));
+            buttons.add(new Button(jsonArray.get(i).getAsJsonObject().get("name"),
+                    jsonArray.get(i).getAsJsonObject().get("class"),
+                    jsonArray.get(i).getAsJsonObject().get("href"),
+                    jsonArray.get(i).getAsJsonObject().get("link")));
         }
         return buttons;
     }
 
     public List getRadioList(String elementKeyName){
         List<Radio> radios = new ArrayList<Radio>();
+        JsonArray jsonArray = obj.getAsJsonArray(elementKeyName);
+        for (int i=0;i<jsonArray.size();i++){
+            radios.add(new Radio(jsonArray.get(i).getAsJsonObject().get("name"),
+                    jsonArray.get(i).getAsJsonObject().get("class"),
+                    jsonArray.get(i).getAsJsonObject().get("href"),
+                    jsonArray.get(i).getAsJsonObject().get("link")));
+        }
         //same logic as getButtonList
         return radios;
     }
 
+    public List get
+
     public static void main(String args[]) throws Exception {
         ParseJson parseJson = new ParseJson();
         parseJson.parseThis(parseJson.obj,false,null);
+        System.out.println("Is hashmap empty:"+parseJson.hashMap.isEmpty());
+        List<Button> buttons = (List<Button>) parseJson.hashMap.get("RadioButton_BookingType");
+        for (Button button:buttons){
+            System.out.println("Class:"+button.button_class+" ID:"+button.button_id
+            +" Href:"+button.button_href+" Link:"+button.button_link);
+        }
 //        System.out.println(parseJson.parseThis(parseJson.obj,false,null));
     }
 }

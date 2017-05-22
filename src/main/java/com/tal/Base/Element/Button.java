@@ -1,5 +1,6 @@
 package com.tal.Base.Element;
 
+import com.google.gson.JsonElement;
 import lombok.Getter;
 
 /**
@@ -16,8 +17,19 @@ public class Button {
     @Getter
     public String button_link;
 
-    public Button(String button_id,String button_class,String button_href,String button_link){
-
+    public Button(JsonElement button_id, JsonElement button_class, JsonElement button_href, JsonElement button_link){
+        if(button_id!=null){
+            this.button_id = button_id.getAsString();
+        }
+        if(button_class!=null){
+            this.button_class = button_class.getAsString();
+        }
+        if(button_href!=null){
+            this.button_href = button_href.getAsString();
+        }
+        if(button_link!=null){
+            this.button_link = button_link.getAsString();
+        }
     }
 
 }
