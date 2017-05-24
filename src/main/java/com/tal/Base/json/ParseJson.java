@@ -5,69 +5,70 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.tal.Base.Element.Button;
+import com.tal.Base.Element.CheckBox;
 import com.tal.Base.Element.Radio;
+import com.tal.Base.Element.Textbox;
 import com.tal.Base.Element.enums.ElementType;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+
 import java.util.*;
 
 /**
  * Created by asus on 5/17/2017.
  */
 public class ParseJson {
+    public WebDriver driver;
     public HashMap<String,Object> hashMap = new HashMap<String, Object>();
 
     public String jsonString = "{\n" +
             " \"Button_Topnav\": [\n" +
             "  {\n" +
-            "   \"name\": \"Flights\",\n" +
-            "   \"url\": \"https://www.goibibo.com/flights/\",\n" +
+            "   \"text\": \"Flights\",\n" +
             "   \"class\": \"iconText \"\n" +
             "  },\n" +
             "  {\n" +
-            "   \"name\": \"Hotels\",\n" +
-            "   \"url\": \"https://www.goibibo.com/hotels/\",\n" +
+            "   \"text\": \"Hotels\",\n" +
             "   \"class\": \"iconText \"\n" +
             "  },\n" +
             "  {\n" +
-            "   \"name\": \"Certified Stays\",\n" +
-            "   \"url\": \"https://www.goibibo.com/gostays/\",\n" +
+            "   \"text\": \"Certified Stays\",\n" +
             "   \"class\": \"iconText \"\n" +
             "  },\n" +
             "  {\n" +
-            "   \"name\": \"Bus\",\n" +
-            "   \"url\": \"https://www.goibibo.com/bus/\",\n" +
+            "   \"text\": \"Bus\",\n" +
             "   \"class\": \"iconText \"\n" +
             "  },\n" +
             "  {\n" +
-            "   \"name\": \"Flight + Hotels\",\n" +
-            "   \"url\": \"https://www.goibibo.com/go/f/\",\n" +
+            "   \"text\": \"Flight + Hotels\",\n" +
             "   \"class\": \"iconText\"\n" +
             "  }\n" +
             " ],\n" +
             " \"RadioButton_BookingType\": [\n" +
             "  {\n" +
-            "   \"name\": \"Round Trip\",\n" +
+            "   \"text\": \"Round Trip\",\n" +
             "   \"class\": \"white radio\",\n" +
             "   \"for\": \"gi_roundtrip_label\"\n" +
             "  },\n" +
             "  {\n" +
-            "   \"name\": \"One Way\",\n" +
+            "   \"text\": \"One Way\",\n" +
             "   \"class\": \"white radio\",\n" +
             "   \"for\": \"gi_oneway_label\"\n" +
             "  },\n" +
             "  {\n" +
-            "   \"name\": \"Multi City\",\n" +
+            "   \"text\": \"Multi City\",\n" +
             "   \"class\": \"white radio\",\n" +
             "   \"for\": \"gi_multicity_label\"\n" +
             "  }\n" +
             " ],\n" +
             " \"Label\": [\n" +
             "  {\n" +
-            "   \"name\": \"Depart:\",\n" +
+            "   \"text\": \"Depart:\",\n" +
             "   \"class\": \"form-control inputTxtLarge widgetCalenderTxt\",\n" +
             "   \"val\": \"\"\n" +
             "  },\n" +
             "  {\n" +
-            "   \"name\": \"Return:\",\n" +
+            "   \"text\": \"Return:\",\n" +
             "   \"class\": \"form-control inputTxtLarge widgetCalenderTxt\",\n" +
             "   \"val\": \"\"\n" +
             "  }\n" +
@@ -98,23 +99,18 @@ public class ParseJson {
             " ],\n" +
             " \"Button\": [\n" +
             "  {\n" +
-            "   \"name\": \"Get Set Go\",\n" +
+            "   \"text\": \"Get Set Go\",\n" +
             "   \"id\": \"gi_search_btn\",\n" +
             "   \"class\": \"width100 button orange xlarge\"\n" +
             "  },\n" +
             "  {\n" +
-            "   \"name\": \"Flight + Hotels\",\n" +
+            "   \"text\": \"Flight + Hotels\",\n" +
             "   \"id\": \"gi_search_fph_btn\",\n" +
             "   \"class\": \"width100 button xlarge btnBackDark\"\n" +
             "  }\n" +
-            " ],\n" +
-            " \"Checkbox\":[{\n" +
-            " \"name\": \"Check some\",\n" +
-            " \"id\": \"someting\"\n" +
-            " }\n" +
             " ]\n" +
             "}";
-    JsonObject obj = new JsonParser().parse(jsonString).getAsJsonObject();
+    public JsonObject obj = new JsonParser().parse(jsonString).getAsJsonObject();
 
     public void parseThis(JsonObject jsonObject, Boolean isWebElement, ElementType type) throws Exception {
         if (isWebElement){
@@ -167,10 +163,7 @@ public class ParseJson {
                 //Add to report e is not found in ElementType
             }
             else {
-                JsonArray jsonArray = obj.getAsJsonArray(e);
-                //Create MasterElement Hasmap with all objects
                 fillHashMap(hashMap,elementType,e);
-
             }
         }
     }
@@ -178,8 +171,10 @@ public class ParseJson {
         public void fillHashMap(HashMap hashMap,ElementType element,String elementName){
         switch (element){
             case TEXTBOX:
+                hashMap.put(elementName,getTextbox(elementName));
                 break;
             case RADIOBUTTON:
+                hashMap.put(elementName,getRadioList(elementName));
                 break;
             case LINK:
                 break;
@@ -190,6 +185,7 @@ public class ParseJson {
                 hashMap.put(elementName,getButtonList(elementName));
                 break;
             case CHECKBOX:
+                hashMap.put(elementName,getCheckboxList(elementName));
                 break;
         }
     }
@@ -198,10 +194,10 @@ public class ParseJson {
         List<Button> buttons= new ArrayList<Button>();
         JsonArray jsonArray = obj.getAsJsonArray(elementKeyName);
         for (int i=0;i<jsonArray.size();i++){
-            buttons.add(new Button(jsonArray.get(i).getAsJsonObject().get("name"),
+            buttons.add(new Button(jsonArray.get(i).getAsJsonObject().get("id"),
                     jsonArray.get(i).getAsJsonObject().get("class"),
                     jsonArray.get(i).getAsJsonObject().get("href"),
-                    jsonArray.get(i).getAsJsonObject().get("link")));
+                    jsonArray.get(i).getAsJsonObject().get("text"),this.driver));
         }
         return buttons;
     }
@@ -219,16 +215,45 @@ public class ParseJson {
         return radios;
     }
 
-    public List get
+    public List getCheckboxList(String elementKeyName){
+        List<CheckBox> checkBoxes = new ArrayList<CheckBox>();
+        JsonArray jsonArray = obj.getAsJsonArray(elementKeyName);
+        for (int i=0;i<jsonArray.size();i++){
+            checkBoxes.add(new CheckBox(jsonArray.get(i).getAsJsonObject().get("name"),
+                    jsonArray.get(i).getAsJsonObject().get("class"),
+                    jsonArray.get(i).getAsJsonObject().get("href"),
+                    jsonArray.get(i).getAsJsonObject().get("text"),driver));
+        }
+        return checkBoxes;
+    }
+
+    public List getTextbox(String elementKeyName){
+        List<Textbox> textboxes = new ArrayList<Textbox>();
+        JsonArray jsonArray = obj.getAsJsonArray(elementKeyName);
+        for (int i=0;i<jsonArray.size();i++){
+            textboxes.add(new Textbox(jsonArray.get(i).getAsJsonObject().get("name"),
+                    jsonArray.get(i).getAsJsonObject().get("class"),
+                    jsonArray.get(i).getAsJsonObject().get("href"),
+                    jsonArray.get(i).getAsJsonObject().get("text"),driver));
+        }
+        return textboxes;
+    }
+
+    public ParseJson(WebDriver driver){
+        this.driver = driver;
+    }
 
     public static void main(String args[]) throws Exception {
-        ParseJson parseJson = new ParseJson();
+        WebDriver driver = new FirefoxDriver();
+        ParseJson parseJson = new ParseJson(driver);
+        driver.get("");
         parseJson.parseThis(parseJson.obj,false,null);
         System.out.println("Is hashmap empty:"+parseJson.hashMap.isEmpty());
         List<Button> buttons = (List<Button>) parseJson.hashMap.get("RadioButton_BookingType");
         for (Button button:buttons){
             System.out.println("Class:"+button.button_class+" ID:"+button.button_id
-            +" Href:"+button.button_href+" Link:"+button.button_link);
+            +" Href:"+button.button_href+" Link:"+button.button_text);
+//            button.getButtonWebElement();
         }
 //        System.out.println(parseJson.parseThis(parseJson.obj,false,null));
     }
