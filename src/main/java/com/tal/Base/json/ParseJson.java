@@ -20,132 +20,18 @@ import java.util.*;
 public class ParseJson {
     public WebDriver driver;
     public HashMap<String,Object> hashMap = new HashMap<String, Object>();
+    public JsonObject obj;
 
-    public String jsonString = "{\n" +
-            " \"Button_Topnav\": [\n" +
-            "  {\n" +
-            "   \"text\": \"Flights\",\n" +
-            "   \"class\": \"iconText \"\n" +
-            "  },\n" +
-            "  {\n" +
-            "   \"text\": \"Hotels\",\n" +
-            "   \"class\": \"iconText \"\n" +
-            "  },\n" +
-            "  {\n" +
-            "   \"text\": \"Certified Stays\",\n" +
-            "   \"class\": \"iconText \"\n" +
-            "  },\n" +
-            "  {\n" +
-            "   \"text\": \"Bus\",\n" +
-            "   \"class\": \"iconText \"\n" +
-            "  },\n" +
-            "  {\n" +
-            "   \"text\": \"Flight + Hotels\",\n" +
-            "   \"class\": \"iconText\"\n" +
-            "  }\n" +
-            " ],\n" +
-            " \"RadioButton_BookingType\": [\n" +
-            "  {\n" +
-            "   \"text\": \"Round Trip\",\n" +
-            "   \"class\": \"white radio\",\n" +
-            "   \"for\": \"gi_roundtrip_label\"\n" +
-            "  },\n" +
-            "  {\n" +
-            "   \"text\": \"One Way\",\n" +
-            "   \"class\": \"white radio\",\n" +
-            "   \"for\": \"gi_oneway_label\"\n" +
-            "  },\n" +
-            "  {\n" +
-            "   \"text\": \"Multi City\",\n" +
-            "   \"class\": \"white radio\",\n" +
-            "   \"for\": \"gi_multicity_label\"\n" +
-            "  }\n" +
-            " ],\n" +
-            " \"Label\": [\n" +
-            "  {\n" +
-            "   \"text\": \"Depart:\",\n" +
-            "   \"class\": \"form-control inputTxtLarge widgetCalenderTxt\",\n" +
-            "   \"val\": \"\"\n" +
-            "  },\n" +
-            "  {\n" +
-            "   \"text\": \"Return:\",\n" +
-            "   \"class\": \"form-control inputTxtLarge widgetCalenderTxt\",\n" +
-            "   \"val\": \"\"\n" +
-            "  }\n" +
-            " ],\n" +
-            " \"selection1\": [\n" +
-            "  {\n" +
-            "  },\n" +
-            "  {\n" +
-            "   \"Options\": [\n" +
-            "    {\n" +
-            "     \"text\": \"Economy\",\n" +
-            "     \"value\": \"E\"\n" +
-            "    },\n" +
-            "    {\n" +
-            "     \"text\": \"Business\",\n" +
-            "     \"value\": \"B\"\n" +
-            "    },\n" +
-            "    {\n" +
-            "     \"text\": \"First class\",\n" +
-            "     \"value\": \"F\"\n" +
-            "    },\n" +
-            "    {\n" +
-            "     \"text\": \"Premium Economy\",\n" +
-            "     \"value\": \"W\"\n" +
-            "    }\n" +
-            "   ]\n" +
-            "  }\n" +
-            " ],\n" +
-            " \"Button\": [\n" +
-            "  {\n" +
-            "   \"text\": \"Get Set Go\",\n" +
-            "   \"id\": \"gi_search_btn\",\n" +
-            "   \"class\": \"width100 button orange xlarge\"\n" +
-            "  },\n" +
-            "  {\n" +
-            "   \"text\": \"Flight + Hotels\",\n" +
-            "   \"id\": \"gi_search_fph_btn\",\n" +
-            "   \"class\": \"width100 button xlarge btnBackDark\"\n" +
-            "  }\n" +
-            " ]\n" +
-            "}";
-    public JsonObject obj = new JsonParser().parse(jsonString).getAsJsonObject();
-
-    public void parseThis(JsonObject jsonObject, Boolean isWebElement, ElementType type) throws Exception {
-        if (isWebElement){
-            switch(type){
-                case BUTTON:
-                    //pass json object to create Button element
-                    break;
-                case CHECKBOX:
-                    //pass json object to create Checkbox element
-                    break;
-                case DROPDOWN:
-                    //pass json object to create Dropdown element
-                    break;
-                case LINK:
-                    //pass json object to create Link element
-                    break;
-                case RADIOBUTTON:
-                    //pass json object to create Radio Button element
-                    break;
-                case TEXTBOX:
-                    //pass json object to create Textbox element
-                    break;
-            }
+    public void parseThis(JsonObject jsonObject) throws Exception {
+        this.obj = jsonObject;
+        //Iterate jsonObject to check how many types of Element are present and create a stringlist
+        List<String> keyList = new ArrayList<String>();
+        for (Map.Entry<String, JsonElement> e: obj.entrySet()){
+            keyList.add(e.getKey());
         }
-        else {
-            //Iterate jsonObject to check how many types of Element are present and create a stringlist
-            List<String> keyList = new ArrayList<String>();
-            for (Map.Entry<String, JsonElement> e: obj.entrySet()){
-                    keyList.add(e.getKey());
-            }
+        //pass this list to checkElementListFromJson to compare it against the existing ElementType
+        checkElementListFromJson(keyList);
 
-//            JSONArray jsonArray = jsonObject.getJSONArray("");
-            //pass this list to checkElementListFromJson to compare it against the existing ElementType
-            checkElementListFromJson(keyList);
-        }
     }
 
     public void checkElementListFromJson(List<String> keysList){
@@ -243,11 +129,11 @@ public class ParseJson {
         this.driver = driver;
     }
 
-    public static void main(String args[]) throws Exception {
+    /*public static void main(String args[]) throws Exception {
         WebDriver driver = new FirefoxDriver();
         ParseJson parseJson = new ParseJson(driver);
         driver.get("");
-        parseJson.parseThis(parseJson.obj,false,null);
+        parseJson.parseThis(parseJson.obj);
         System.out.println("Is hashmap empty:"+parseJson.hashMap.isEmpty());
         List<Button> buttons = (List<Button>) parseJson.hashMap.get("RadioButton_BookingType");
         for (Button button:buttons){
@@ -256,5 +142,5 @@ public class ParseJson {
 //            button.getButtonWebElement();
         }
 //        System.out.println(parseJson.parseThis(parseJson.obj,false,null));
-    }
+    }*/
 }

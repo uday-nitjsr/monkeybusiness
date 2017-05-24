@@ -1,0 +1,89 @@
+{
+ "Button_Topnav": [
+  {
+   "text": "Flights",
+   "class": "iconText "
+  },
+  {
+   "text": "Hotels",
+   "class": "iconText "
+  },
+  {
+   "text": "Certified Stays",
+   "class": "iconText "
+  },
+  {
+   "text": "Bus",
+   "class": "iconText "
+  },
+  {
+   "text": "Flight + Hotels",
+   "class": "iconText"
+  }
+ ],
+ "RadioButton_BookingType": [
+  {
+   "text": "Round Trip",
+   "class": "white radio",
+   "for": "gi_roundtrip_label"
+  },
+  {
+   "text": "One Way",
+   "class": "white radio",
+   "for": "gi_oneway_label"
+  },
+  {
+   "text": "Multi City",
+   "class": "white radio",
+   "for": "gi_multicity_label"
+  }
+ ],
+ "Label": [
+  {
+   "text": "Depart:",
+   "class": "form-control inputTxtLarge widgetCalenderTxt",
+   "val": ""
+  },
+  {
+   "text": "Return:",
+   "class": "form-control inputTxtLarge widgetCalenderTxt",
+   "val": ""
+  }
+ ],
+ "selection1": [
+  {
+  },
+  {
+   "Options": [
+    {
+     "text": "Economy",
+     "value": "E"
+    },
+    {
+     "text": "Business",
+     "value": "B"
+    },
+    {
+     "text": "First class",
+     "value": "F"
+    },
+    {
+     "text": "Premium Economy",
+     "value": "W"
+    }
+   ]
+  }
+ ],
+ "Button": [
+  {
+   "text": "Get Set Go",
+   "id": "gi_search_btn",
+   "class": "width100 button orange xlarge"
+  },
+  {
+   "text": "Flight + Hotels",
+   "id": "gi_search_fph_btn",
+   "class": "width100 button xlarge btnBackDark"
+  }
+ ]
+}

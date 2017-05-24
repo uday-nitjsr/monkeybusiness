@@ -1,5 +1,8 @@
 package com.tal.Base;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.stream.JsonReader;
 import com.tal.Base.json.ParseJson;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -8,6 +11,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -55,7 +59,11 @@ public class MasterRunner {
 
         //create object of ParseJson
         parseJson = new ParseJson(driver);
-        parseJson.parseThis(parseJson.obj,false,null);
+        parseJson.parseThis(getJsonFromParseHub());
+    }
+    public JsonObject getJsonFromParseHub() throws FileNotFoundException {
+        FileReader reader = new FileReader("D:\\Project\\parsehubImpl\\monkeybusiness\\src\\main\\resources\\sampleJson\\run_results_05_24.json");
+        return new JsonParser().parse(reader).getAsJsonObject();
     }
 
     @AfterClass(alwaysRun = true)
