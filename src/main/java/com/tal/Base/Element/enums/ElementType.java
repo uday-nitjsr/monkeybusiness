@@ -5,7 +5,7 @@ public enum ElementType{
     TEXTBOX     ("Textbox"),
     LINK        ("Link"),
     CHECKBOX    ("Checkbox"),
-    RADIOBUTTON ("Radio button"),
+    RADIOBUTTON ("RadioButton"),
     DROPDOWN    ("Dropdown");
 
     private String _label;

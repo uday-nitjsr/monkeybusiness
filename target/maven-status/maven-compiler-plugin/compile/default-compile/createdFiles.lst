@@ -1,11 +1,11 @@
 com\tal\Base\Element\Dropdown.class
+com\tal\Base\json\ParseJson.class
+com\tal\Base\Element\Button.class
 com\tal\Base\Element\enums\AttributeType.class
 com\tal\Base\Element\Radio.class
-com\tal\Base\json\ParseJson.class
 com\tal\Base\Element\CheckBox.class
 com\tal\Base\Element\Textbox.class
 com\tal\Base\json\ParseJson$1.class
 com\tal\Base\Element\enums\ElementType.class
 com\tal\Base\MasterRunner.class
 com\tal\Base\Runner.class
-com\tal\Base\Element\Button.class

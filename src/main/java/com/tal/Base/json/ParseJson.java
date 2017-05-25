@@ -39,7 +39,7 @@ public class ParseJson {
             Boolean found = false;
             ElementType elementType=null;
             for (ElementType j:ElementType.values()){
-                if (e.contains(j.toString())){
+                if (e.split("_")[0].equals(j.toString())){
                     found = true;
                     elementType = j;
                     break;
@@ -95,7 +95,7 @@ public class ParseJson {
             radios.add(new Radio(jsonArray.get(i).getAsJsonObject().get("name"),
                     jsonArray.get(i).getAsJsonObject().get("class"),
                     jsonArray.get(i).getAsJsonObject().get("href"),
-                    jsonArray.get(i).getAsJsonObject().get("link")));
+                    jsonArray.get(i).getAsJsonObject().get("text"),driver));
         }
         //same logic as getButtonList
         return radios;
@@ -129,18 +129,4 @@ public class ParseJson {
         this.driver = driver;
     }
 
-    /*public static void main(String args[]) throws Exception {
-        WebDriver driver = new FirefoxDriver();
-        ParseJson parseJson = new ParseJson(driver);
-        driver.get("");
-        parseJson.parseThis(parseJson.obj);
-        System.out.println("Is hashmap empty:"+parseJson.hashMap.isEmpty());
-        List<Button> buttons = (List<Button>) parseJson.hashMap.get("RadioButton_BookingType");
-        for (Button button:buttons){
-            System.out.println("Class:"+button.button_class+" ID:"+button.button_id
-            +" Href:"+button.button_href+" Link:"+button.button_text);
-//            button.getButtonWebElement();
-        }
-//        System.out.println(parseJson.parseThis(parseJson.obj,false,null));
-    }*/
 }
