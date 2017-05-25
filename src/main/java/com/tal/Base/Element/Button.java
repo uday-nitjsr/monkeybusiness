@@ -106,37 +106,6 @@ public class Button {
             }
         }
         return null;
-        /*WebElement ret = null;
-        if (getButton_id() != null) {
-            List<WebElement> elements = driver.findElements(By.id(getButton_id()));
-            if (elements.size() > 1) {
-                if (getButton_class()!=null){
-                    for (WebElement e:elements){
-                        if (e.getAttribute("class").equals(getButton_class())){
-                            return e;
-                        }
-                    }
-                }
-                else if (getButton_href()!=null){
-                    for ()
-                }
-            }
-        } else if (getButton_class() != null) {
-            List<WebElement> elements = driver.findElements(By.className(getButton_class()));
-            if (elements.size() > 1) {
-                if (getButton_href() != null) {
-                    for (WebElement e : elements) {
-                        if (e.getAttribute("href").equals(getButton_href())) {
-                            ret = e;
-                            break;
-                        }
-                    }
-                } else {
-                }
-            }
-
-        }
-        return ret;*/
     }
 
 }

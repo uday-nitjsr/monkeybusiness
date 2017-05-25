@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" total="1" passed="1">
+  <reporter-output>
+  </reporter-output>
+  <suite name="Member Login" duration-ms="20350" started-at="2017-05-25T06:54:56Z" finished-at="2017-05-25T06:55:16Z">
+    <groups>
+    </groups>
+    <test name="Member Login" duration-ms="20350" started-at="2017-05-25T06:54:56Z" finished-at="2017-05-25T06:55:16Z">
+      <class name="com.tal.Base.Runner">
+        <test-method status="PASS" signature="initialize()[pri:0, instance:com.tal.Base.Runner@735b5592]" name="initialize" is-config="true" duration-ms="16193" started-at="2017-05-25T12:24:56Z" finished-at="2017-05-25T12:25:12Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- initialize -->
+        <test-method status="PASS" signature="run()[pri:0, instance:com.tal.Base.Runner@735b5592]" name="run" duration-ms="3197" started-at="2017-05-25T12:25:12Z" finished-at="2017-05-25T12:25:15Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- run -->
+        <test-method status="PASS" signature="teardown()[pri:0, instance:com.tal.Base.Runner@735b5592]" name="teardown" is-config="true" duration-ms="957" started-at="2017-05-25T12:25:15Z" finished-at="2017-05-25T12:25:16Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- teardown -->
+      </class> <!-- com.tal.Base.Runner -->
+    </test> <!-- Member Login -->
+  </suite> <!-- Member Login -->
+</testng-results>
