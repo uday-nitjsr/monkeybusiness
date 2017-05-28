@@ -7,19 +7,15 @@ import com.tal.Base.Element.Button;
 import com.tal.Base.Element.CheckBox;
 import com.tal.Base.Element.Radio;
 import com.tal.Base.Element.Textbox;
+import com.tal.Base.Element.reporting.EmailableReport;
 import com.tal.Base.json.ParseJson;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.URL;
 import java.util.List;
 import java.util.Properties;
@@ -78,7 +74,13 @@ public class MasterRunner {
         driver.quit();
     }
 
-    public void performAllButtonActions(List<Button> buttons){
+    /*public static void screenshot(WebDriver driver, String fileName){
+        TakesScreenshot screenshot = (TakesScreenshot) driver;
+        File scrFile = screenshot.getScreenshotAs(OutputType.FILE);
+        Fil
+    }*/
+
+    public void performAllButtonActions(List<Button> buttons,String elementName){
         for (Button button:buttons){
             System.out.println("Class:"+button.button_class+" ID:"+button.button_id
                     +" Href:"+button.button_href+" Text:"+button.button_text);
@@ -88,6 +90,7 @@ public class MasterRunner {
                 //check if button is clicked
                 //take screenshot to page
                 //Add to report
+                EmailableReport.addRowToResult(elementName+button.button_text,Button.class.toString(),"click","");
             }
             catch (Exception e){
                 System.out.println(e.getMessage());
@@ -95,7 +98,7 @@ public class MasterRunner {
         }
     }
 
-    public void performAllCheckboxActions(List<CheckBox> checkBoxes){
+    public void performAllCheckboxActions(List<CheckBox> checkBoxes, String elementName){
         for (CheckBox checkbox:checkBoxes){
             System.out.println("Class:"+checkbox.checkbox_class+" ID:"+checkbox.checkbox_id
                     +" Href:"+checkbox.checkbox_href+" Text:"+checkbox.checkbox_text);
@@ -105,9 +108,10 @@ public class MasterRunner {
                 //check if button is clicked
                 //take screenshot to page
                 //Add to report
-
+                EmailableReport.addRowToResult(elementName,CheckBox.class.toString(),"click","");
                 //uncheck the checkbox
                 ele.click();
+                EmailableReport.addRowToResult(elementName,CheckBox.class.toString(),"click","");
                 //take screenshot of page
                 //add to report
             }
@@ -143,7 +147,6 @@ public class MasterRunner {
                 WebElement ele = radio.getradioWebElement();
                 ele.click();
                 ele.click();
-                ele.
                 //check if button is clicked
                 //take screenshot to page
                 //Add to report
