@@ -25,7 +25,7 @@ public class Runner extends MasterRunner {
                 //create a button list
                 List<Button> buttons = (List<Button>) parseJson.hashMap.get(pairKeyString);
                 //perform all actions
-                performAllButtonActions(buttons);
+                performAllButtonActions(buttons,pairKeyString);
             }
             else if (pairKeyString.split("_")[0].equals(ElementType.CHECKBOX.toString())){
 
