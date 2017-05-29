@@ -1,11 +1,10 @@
 package com.tal.Base;
 
-import com.tal.Base.Element.Button;
-import com.tal.Base.Element.CheckBox;
-import com.tal.Base.Element.Radio;
+import com.tal.Base.Element.*;
 import com.tal.Base.Element.enums.ElementType;
 import org.testng.annotations.Test;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -16,7 +15,7 @@ import java.util.List;
 public class Runner extends MasterRunner {
 
     @Test
-    public void run(){
+    public void run() {
         Iterator iterator = parseJson.hashMap.entrySet().iterator();
         while (iterator.hasNext()){
             HashMap.Entry pair = (HashMap.Entry)iterator.next();
@@ -28,32 +27,23 @@ public class Runner extends MasterRunner {
                 performAllButtonActions(buttons,pairKeyString);
             }
             else if (pairKeyString.split("_")[0].equals(ElementType.CHECKBOX.toString())){
-
+                List<CheckBox> checkBoxes = (List<CheckBox>) parseJson.hashMap.get(pairKeyString);
+                performAllCheckboxActions(checkBoxes,pairKeyString);
             }
-            else if (pairKeyString.equals(ElementType.DROPDOWN)){
-
+            else if (pairKeyString.split("_")[0].equals(ElementType.DROPDOWN)){
+                List<Dropdown> dropdowns = (List<Dropdown>) parseJson.hashMap.get(pairKeyString);
+                //performAllDropdownActions(dropdowns,pairKeyString);
             }
-            else if (pairKeyString.equals(ElementType.LINK)){
+            else if (pairKeyString.split("_")[0].equals(ElementType.LINK)){
 
             }
             else if (pairKeyString.split("_")[0].equals(ElementType.RADIOBUTTON.toString())){
                 List<Radio> radios = (List<Radio>) parseJson.hashMap.get(pairKeyString);
-                for (Radio radio:radios){
-                    System.out.println("Class:"+radio.radio_class+" ID:"+radio.radio_id
-                            +" Href:"+radio.radio_href+" Text:"+radio.radio_text);
-                    try {
-                        radio.getradioWebElement().click();
-                    }
-                    catch (Exception e){
-                        System.out.println(e.getMessage());
-                    }
-                }
+                performAllRadioActions(radios,pairKeyString);
             }
-            else if (pairKeyString.equals(ElementType.TEXTBOX)){
-
-            }
-            else {
-
+            else if (pairKeyString.split("_")[0].equals(ElementType.TEXTBOX.toString())){
+                List<Textbox> textboxes = (List<Textbox>) parseJson.hashMap.get(pairKeyString);
+                peformAllTextboxActions(textboxes,pairKeyString);
             }
         }
     }

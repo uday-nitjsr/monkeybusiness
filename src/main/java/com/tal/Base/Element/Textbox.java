@@ -15,6 +15,7 @@ import java.util.List;
 public class Textbox {
     public WebDriver driver;
     public Boolean removeTextFromXpath = false;
+    Boolean isRelTextPresent = false;
     @Getter
     public String textbox_id;
     @Getter
@@ -23,10 +24,12 @@ public class Textbox {
     public String textbox_href;
     @Getter
     public String textbox_text;
+    @Getter
+    public String textbox_reltext;
 
     //need to add placeholder
 
-    public Textbox(JsonElement textbox_id, JsonElement textbox_class, JsonElement textbox_href, JsonElement textbox_link,WebDriver driver){
+    public Textbox(JsonElement textbox_id, JsonElement textbox_class, JsonElement textbox_href, JsonElement textbox_link,JsonElement textbox_reltext,WebDriver driver){
         this.driver = driver;
         if(textbox_id!=null){
             this.textbox_id = textbox_id.getAsString();
@@ -39,6 +42,10 @@ public class Textbox {
         }
         if(textbox_link!=null){
             this.textbox_text = textbox_link.getAsString();
+        }
+        if (textbox_reltext!=null){
+            isRelTextPresent = true;
+            this.textbox_reltext = textbox_reltext.getAsString();
         }
     }
 
@@ -60,7 +67,13 @@ public class Textbox {
 
     //return xpathSelector locator based on the field values
     public String buildXpathSelector(){
-        String xpathSelector = "//*";
+        String xpathSelector;
+        if (isRelTextPresent){
+            xpathSelector = "//*[text()='"+textbox_reltext+"']/..//*";
+        }
+        else {
+            xpathSelector = "//*";
+        }
         if (textbox_id!=null){
             xpathSelector += "[@id='" + textbox_id + "']";
         }

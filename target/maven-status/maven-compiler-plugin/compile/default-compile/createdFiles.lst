@@ -1,5 +1,6 @@
 com\tal\Base\Element\Dropdown.class
 com\tal\Base\json\ParseJson.class
+com\tal\Base\Element\reporting\EmailableReport.class
 com\tal\Base\Element\Button.class
 com\tal\Base\Element\enums\AttributeType.class
 com\tal\Base\Element\Radio.class

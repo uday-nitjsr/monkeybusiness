@@ -1,0 +1,49 @@
+{
+ "Textbox_Loc": [
+  {
+   "id": "gosuggest_inputSrc",
+   "class": "form-control inputTxtLarge inputSrc"
+  },
+  {
+   "id": "gosuggest_inputDest",
+   "class": "form-control inputTxtLarge inputDest"
+  }
+ ],
+ "Textbox_Cal": [
+  {
+   "reltext": "Depart:",
+   "class": "form-control inputTxtLarge widgetCalenderTxt"
+  },
+  {
+   "reltext": "Return:",
+   "class": "form-control inputTxtLarge widgetCalenderTxt"
+  }
+ ],
+ "Dropdown_Traveller": [
+  {
+   "class": "icon-arrow-down txtgrey ico13 lh1-2 padT5 fr"
+  }
+ ],
+ "Dropdown_TypeClass": [
+  {
+   "id": "gi_class",
+   "class": "form-control selectLarge width100"
+  }
+ ],
+ "Checkbox": [
+  {
+   "id": "registerFareAlert",
+   "class": "fl bigCheckBox"
+  }
+ ],
+ "Button": [
+  {
+   "text": "Get Set Go",
+   "id": "gi_search_btn"
+  },
+  {
+   "text": "Flight + Hotels",
+   "id": "gi_search_fph_btn"
+  }
+ ]
+}

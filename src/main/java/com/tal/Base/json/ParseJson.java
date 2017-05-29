@@ -83,7 +83,8 @@ public class ParseJson {
             buttons.add(new Button(jsonArray.get(i).getAsJsonObject().get("id"),
                     jsonArray.get(i).getAsJsonObject().get("class"),
                     jsonArray.get(i).getAsJsonObject().get("href"),
-                    jsonArray.get(i).getAsJsonObject().get("text"),this.driver));
+                    jsonArray.get(i).getAsJsonObject().get("text"),
+                    jsonArray.get(i).getAsJsonObject().get("reltext"),this.driver));
         }
         return buttons;
     }
@@ -120,7 +121,8 @@ public class ParseJson {
             textboxes.add(new Textbox(jsonArray.get(i).getAsJsonObject().get("name"),
                     jsonArray.get(i).getAsJsonObject().get("class"),
                     jsonArray.get(i).getAsJsonObject().get("href"),
-                    jsonArray.get(i).getAsJsonObject().get("text"),driver));
+                    jsonArray.get(i).getAsJsonObject().get("text"),
+                    jsonArray.get(i).getAsJsonObject().get("reltext"),driver));
         }
         return textboxes;
     }

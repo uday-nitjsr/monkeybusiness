@@ -17,6 +17,7 @@ public class Button {
 
     public WebDriver driver;
     Boolean removeTextFromXpath = false;
+    Boolean isRelTextPresent = false;
     @Getter
     public String button_id;
     @Getter
@@ -25,8 +26,10 @@ public class Button {
     public String button_href;
     @Getter
     public String button_text;
+    @Getter
+    public String button_reltext;
 
-    public Button(JsonElement button_id, JsonElement button_class, JsonElement button_href, JsonElement button_text,WebDriver driver) {
+    public Button(JsonElement button_id, JsonElement button_class, JsonElement button_href, JsonElement button_text,JsonElement button_reltext,WebDriver driver) {
         this.driver = driver;
         if (button_id != null) {
             this.button_id = button_id.getAsString();
@@ -39,6 +42,10 @@ public class Button {
         }
         if (button_text != null) {
             this.button_text = button_text.getAsString();
+        }
+        if (button_reltext!=null){
+            isRelTextPresent = true;
+            this.button_reltext = button_reltext.getAsString();
         }
     }
 
@@ -60,7 +67,13 @@ public class Button {
 
     //return xpathSelector locator based on the field values
     public String buildXpathSelector(){
-        String xpathSelector = "//*";
+        String xpathSelector;
+        if (isRelTextPresent){
+            xpathSelector = "//*[text()='"+button_reltext+"']/..//*";
+        }
+        else {
+            xpathSelector = "//*";
+        }
         if (button_id!=null){
             xpathSelector += "[@id='" + button_id + "']";
         }

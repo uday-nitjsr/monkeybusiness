@@ -1,32 +1,37 @@
 package com.tal.Base.Element.reporting;
 
+import org.testng.IReporter;
+import org.testng.ISuite;
+import org.testng.xml.XmlSuite;
+
 import java.io.*;
+import java.util.List;
 
 /**
  * Created by asus on 5/26/2017.
  */
-public class EmailableReport {
+public class EmailableReport implements IReporter{
     protected static PrintWriter writer;
     protected PrintWriter summaryWriter;
 
-    public void generateReport() throws IOException {
-        writer = createWriter("D:/Output", "emailable-report2.html");
+    public static void generateReport() throws IOException {
+        writer = createWriter(System.getProperty("user.dir"), "emailable-report.html");
         writeDocumentStart();
         writeHead();
         writer.print("<body>");
         writeScenarioSummary();
         writer.print("<body>");
-        writeDocumentEnd();
-        writer.close();
+        /*writeDocumentEnd();
+        writer.close();*/
     }
 
-    protected PrintWriter createWriter(String outdir, String fileName) throws IOException {
+    protected static PrintWriter createWriter(String outdir, String fileName) throws IOException {
         new File(outdir).mkdirs();
         return new PrintWriter(new BufferedWriter(new FileWriter(new File(
                 outdir, fileName))));
     }
 
-    protected void writeDocumentStart() {
+    protected static void writeDocumentStart() {
         writer.println("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\" \"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\">");
         writer.print("<html xmlns=\"http://www.w3.org/1999/xhtml\">");
     }
@@ -34,7 +39,7 @@ public class EmailableReport {
         writer.print("</html>");
     }
 
-    protected void writeHead() {
+    protected static void writeHead() {
 
         writer.print("<head>");
         writer.print("<title>TestNG Report</title>");
@@ -43,7 +48,7 @@ public class EmailableReport {
         writer.print("</head>");
     }
 
-    protected void writeStylesheet() {
+    protected static void writeStylesheet() {
 
         writer.print("<style type=\"text/css\">");
         writer.print("table {margin-bottom:10px;border-collapse:collapse;empty-cells:show}");
@@ -85,7 +90,7 @@ public class EmailableReport {
         writer.print("</style>");
     }
 
-    protected void writeJavascript() {
+    protected static void writeJavascript() {
         writer.print("<script type=\"text/javascript\" src=\"https://saucelabs.com/flowplayer/example/flowplayer-3.2.13.min.js\" ></script>" +
                 "<script type=\"text/javascript\"> function showHideVideo(videoName){var vc=document.getElementById(videoName+'cont');" +
                 "var velm = document.getElementById(videoName);	var visibility =  velm.style.display; if(visibility ==\"none\"){ velm.style.display= 'block';" +
@@ -160,7 +165,7 @@ public class EmailableReport {
         writer.print(strJS);
     }
 
-    protected void writeScenarioSummary() {
+    protected static void writeScenarioSummary() {
         writer.print("<table id='actionDetails'>");
         writer.print("<thead>");
         writer.print("<tr>");
@@ -172,16 +177,17 @@ public class EmailableReport {
         writer.print("</thead>");
     }
 
-    public static void addRowToResult(String elementName,String Type,String action,String something){
+    public static void addRowToResult(String elementName,String Type,String action,String image){
         writer.print("<tr>");
-        writer.print("<td>"+elementName+"/<td>");
-        writer.print("<td>"+Type+"/<td>");
-        writer.print("<td>"+action+"/<td>");
-        writer.print("<td>"+something+"/<td>");
+        writer.print("<td>"+elementName+"</td>");
+        writer.print("<td>"+Type+"</td>");
+        writer.print("<td>"+action+"</td>");
+        writer.print("<td><a href='"+image+"' target='_blank'/>here</td>");
     }
 
-    public static void main(String args[]) throws IOException {
-        new EmailableReport().generateReport();
+    public void generateReport(List<XmlSuite> list, List<ISuite> list1, String s) {
+        writer.print("<body>");
+        writeDocumentEnd();
+        writer.close();
     }
-
 }
