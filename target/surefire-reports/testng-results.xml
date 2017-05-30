@@ -2,20 +2,20 @@
 <testng-results skipped="0" failed="0" total="1" passed="1">
   <reporter-output>
   </reporter-output>
-  <suite name="Runner" duration-ms="170167" started-at="2017-05-26T06:05:05Z" finished-at="2017-05-26T06:07:55Z">
+  <suite name="Runner" duration-ms="27174" started-at="2017-05-29T06:28:16Z" finished-at="2017-05-29T06:28:44Z">
     <groups>
     </groups>
-    <test name="Member Login" duration-ms="170167" started-at="2017-05-26T06:05:05Z" finished-at="2017-05-26T06:07:55Z">
+    <test name="Member Login" duration-ms="27174" started-at="2017-05-29T06:28:16Z" finished-at="2017-05-29T06:28:44Z">
       <class name="com.tal.Base.Runner">
-        <test-method status="PASS" signature="initialize()[pri:0, instance:com.tal.Base.Runner@7dc7cbad]" name="initialize" is-config="true" duration-ms="21561" started-at="2017-05-26T11:35:05Z" finished-at="2017-05-26T11:35:26Z">
+        <test-method status="PASS" signature="initialize()[pri:0, instance:com.tal.Base.Runner@5419f379]" name="initialize" is-config="true" duration-ms="14337" started-at="2017-05-29T11:58:16Z" finished-at="2017-05-29T11:58:31Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- initialize -->
-        <test-method status="PASS" signature="run()[pri:0, instance:com.tal.Base.Runner@7dc7cbad]" name="run" duration-ms="147387" started-at="2017-05-26T11:35:26Z" finished-at="2017-05-26T11:37:53Z">
+        <test-method status="PASS" signature="run()[pri:0, instance:com.tal.Base.Runner@5419f379]" name="run" duration-ms="12405" started-at="2017-05-29T11:58:31Z" finished-at="2017-05-29T11:58:43Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- run -->
-        <test-method status="PASS" signature="teardown()[pri:0, instance:com.tal.Base.Runner@7dc7cbad]" name="teardown" is-config="true" duration-ms="1209" started-at="2017-05-26T11:37:53Z" finished-at="2017-05-26T11:37:55Z">
+        <test-method status="PASS" signature="teardown()[pri:0, instance:com.tal.Base.Runner@5419f379]" name="teardown" is-config="true" duration-ms="411" started-at="2017-05-29T11:58:43Z" finished-at="2017-05-29T11:58:44Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- teardown -->
