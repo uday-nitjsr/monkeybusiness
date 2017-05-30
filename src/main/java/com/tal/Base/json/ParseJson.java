@@ -4,10 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.tal.Base.Element.Button;
-import com.tal.Base.Element.CheckBox;
-import com.tal.Base.Element.Radio;
-import com.tal.Base.Element.Textbox;
+import com.tal.Base.Element.*;
 import com.tal.Base.Element.enums.ElementType;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -65,6 +62,7 @@ public class ParseJson {
             case LINK:
                 break;
             case DROPDOWN:
+                hashMap.put(elementName,getDropdownList(elementName));
                 break;
             case BUTTON:
                 //getElementList
@@ -125,6 +123,18 @@ public class ParseJson {
                     jsonArray.get(i).getAsJsonObject().get("reltext"),driver));
         }
         return textboxes;
+    }
+
+    public List getDropdownList(String elementKeyName){
+        List<Dropdown> dropdowns = new ArrayList<Dropdown>();
+        JsonArray jsonArray = obj.getAsJsonArray(elementKeyName);
+        for (int i=0;i<jsonArray.size();i++){
+            dropdowns.add(new Dropdown(jsonArray.get(i).getAsJsonObject().get("name"),
+                    jsonArray.get(i).getAsJsonObject().get("class"),
+                    jsonArray.get(i).getAsJsonObject().get("href"),
+                    jsonArray.get(i).getAsJsonObject().get("text"),driver));
+        }
+        return dropdowns;
     }
 
     public ParseJson(WebDriver driver){

@@ -24,7 +24,8 @@ public class Dropdown {
     @Getter
     public String dropdown_text;
 
-    public Dropdown(JsonElement dropdown_id, JsonElement dropdown_class, JsonElement dropdown_href, JsonElement dropdown_link){
+    public Dropdown(JsonElement dropdown_id, JsonElement dropdown_class, JsonElement dropdown_href, JsonElement dropdown_link,WebDriver driver){
+        this.driver = driver;
         if(dropdown_id!=null){
             this.dropdown_id = dropdown_id.getAsString();
         }

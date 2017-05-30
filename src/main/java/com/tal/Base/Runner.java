@@ -30,9 +30,9 @@ public class Runner extends MasterRunner {
                 List<CheckBox> checkBoxes = (List<CheckBox>) parseJson.hashMap.get(pairKeyString);
                 performAllCheckboxActions(checkBoxes,pairKeyString);
             }
-            else if (pairKeyString.split("_")[0].equals(ElementType.DROPDOWN)){
+            else if (pairKeyString.split("_")[0].equals(ElementType.DROPDOWN.toString())){
                 List<Dropdown> dropdowns = (List<Dropdown>) parseJson.hashMap.get(pairKeyString);
-                //performAllDropdownActions(dropdowns,pairKeyString);
+                performAllDropdownActions(dropdowns,pairKeyString);
             }
             else if (pairKeyString.split("_")[0].equals(ElementType.LINK)){
 
